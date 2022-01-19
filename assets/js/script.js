@@ -59,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
       bukowski: ["buk1", "buk2"],
       napoleon: ["nap1", "nap2"]
     };
+
     const authors = Object.keys(quotes);
-    const values = Object.values(quotes)
     const randomAuthorIndex = Math.floor(Math.random() * authors.length);
     const randomAuthor = authors[randomAuthorIndex];
     const randomQuoteIndex = Math.floor(Math.random() * quotes[randomAuthor].length);
