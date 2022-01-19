@@ -9,13 +9,18 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       let textInputValue = document.getElementById('terminalTextInput').value.trim(); //get the text from the text input to a variable
       let textInputValueLowerCase = textInputValue.toLowerCase(); //get the lower case of the string
-   console.log(quotes);
       if (textInputValue != ""){ //checking if text was entered
         addTextToResults("<p class='userEnteredText'>> " + textInputValue + "</p>");
         if (textInputValueLowerCase.substr(0,4) == "help") { //if the first 4 characters = help
           postHelpList();
+          clearInput();
           return;
-        }        
+        }    
+        if (textInputValueLowerCase.substr(0,7) == "message") { //if the first 4 characters = help
+          messageGenerator();
+          clearInput();
+          return;
+        }            
         if (textInputValueLowerCase.substr(0,5) == "open ") { //if the first 5 characters = open + space
           openLinkInNewWindow('http://' + textInputValueLowerCase.substr(5) );
           addTextToResults("<i>The URL " + "<b>" + textInputValue.substr(5) + "</b>" + " should be opened now.</i>");
@@ -45,7 +50,24 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error('script yielded an error: ' + e);
       console.log(e);
     };
-  };  
+  }; 
+  
+  // Generate random message
+  const messageGenerator = () => {
+    const quotes = {
+      adams: ["adam1", "adam2"],
+      bukowski: ["buk1", "buk2"],
+      napoleon: ["nap1", "nap2"]
+    };
+    const authors = Object.keys(quotes);
+    const values = Object.values(quotes)
+    const randomAuthorIndex = Math.floor(Math.random() * authors.length);
+    const randomAuthor = authors[randomAuthorIndex];
+    const randomQuoteIndex = Math.floor(Math.random() * quotes[randomAuthor].length);
+    const randomQuote = quotes[randomAuthor][randomQuoteIndex]
+
+    addTextToResults(randomQuote);
+  };
 
   // Add text to the results div
   const addTextToResults = (textToAdd) => {
@@ -75,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Array of all the help keywords
     const helpKeyWords = [
       "Try one of the following:",
-      "- Quote to get a quote",
+      "- Message to get a random quote",
       "- Open + website URL to open it in the browser (ex. open webdevtrick.com)",
       "- Google + keyword to search directly in Google (ex. google web development)",
       "- YouTube + keyword to search directly in YouTube (ex. Technical Freaks)",
